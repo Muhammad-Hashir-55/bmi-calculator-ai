@@ -16,12 +16,12 @@ export function BmiCalculator() {
     };
 
     return (
-        <Card id="bmi-card" className="glass-panel border-white/10 shadow-2xl relative overflow-hidden group">
+        <Card id="bmi-card" className="glass-panel bg-white/50 dark:bg-white/5 border-slate-200 dark:border-white/10 shadow-2xl relative overflow-hidden group">
             {/* Decorative background glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-50 transition-opacity group-hover:opacity-100 pointer-events-none" />
 
             <CardHeader>
-                <CardTitle className="text-2xl font-bold tracking-tight text-glow">Body Composition</CardTitle>
+                <CardTitle className="text-2xl font-bold tracking-tight text-slate-800 dark:text-white">Body Composition</CardTitle>
             </CardHeader>
 
             <CardContent className="space-y-6 relative z-10">
@@ -33,10 +33,10 @@ export function BmiCalculator() {
                             initial={{ opacity: 0, height: 0, y: 10 }}
                             animate={{ opacity: 1, height: 'auto', y: 0 }}
                             exit={{ opacity: 0, height: 0, y: -10 }}
-                            className="text-center p-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md shadow-inner"
+                            className="text-center p-3 rounded-xl bg-slate-100/50 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-inner"
                         >
                             <p className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">Status</p>
-                            <p className="text-xl font-bold tracking-wider uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+                            <p className="text-xl font-bold tracking-wider uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-emerald-600 dark:from-blue-400 dark:to-emerald-400">
                                 {bmiData.category}
                             </p>
                         </motion.div>
@@ -46,24 +46,24 @@ export function BmiCalculator() {
                 <form onSubmit={handleCalculate} className="space-y-5 mt-4">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-white/80 ml-1">Height (cm)</label>
+                            <label className="text-sm font-medium text-slate-700 dark:text-white/80 ml-1">Height (cm)</label>
                             <Input
                                 type="number"
                                 placeholder="175"
                                 value={bmiData.height}
                                 onChange={(e) => setBmiData({ height: e.target.value })}
-                                className="bg-black/30 border-white/10 focus-visible:ring-primary/50 text-white rounded-xl shadow-inner transition-all hover:bg-black/40"
+                                className="bg-white dark:bg-black/30 border-slate-200 dark:border-white/10 focus-visible:ring-primary/50 text-slate-900 dark:text-white rounded-xl shadow-inner transition-all hover:bg-slate-50 dark:hover:bg-black/40"
                                 required
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-white/80 ml-1">Weight (kg)</label>
+                            <label className="text-sm font-medium text-slate-700 dark:text-white/80 ml-1">Weight (kg)</label>
                             <Input
                                 type="number"
                                 placeholder="70"
                                 value={bmiData.weight}
                                 onChange={(e) => setBmiData({ weight: e.target.value })}
-                                className="bg-black/30 border-white/10 focus-visible:ring-primary/50 text-white rounded-xl shadow-inner transition-all hover:bg-black/40"
+                                className="bg-white dark:bg-black/30 border-slate-200 dark:border-white/10 focus-visible:ring-primary/50 text-slate-900 dark:text-white rounded-xl shadow-inner transition-all hover:bg-slate-50 dark:hover:bg-black/40"
                                 required
                             />
                         </div>
@@ -71,35 +71,35 @@ export function BmiCalculator() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-white/80 ml-1">Age</label>
+                            <label className="text-sm font-medium text-slate-700 dark:text-white/80 ml-1">Age</label>
                             <Input
                                 type="number"
                                 placeholder="25"
                                 value={bmiData.age}
                                 onChange={(e) => setBmiData({ age: e.target.value })}
-                                className="bg-black/30 border-white/10 focus-visible:ring-primary/50 text-white rounded-xl shadow-inner transition-all hover:bg-black/40"
+                                className="bg-white dark:bg-black/30 border-slate-200 dark:border-white/10 focus-visible:ring-primary/50 text-slate-900 dark:text-white rounded-xl shadow-inner transition-all hover:bg-slate-50 dark:hover:bg-black/40"
                                 required
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-white/80 ml-1">Gender</label>
+                            <label className="text-sm font-medium text-slate-700 dark:text-white/80 ml-1">Gender</label>
                             <select
                                 value={bmiData.gender}
                                 onChange={(e) => setBmiData({ gender: e.target.value as any })}
-                                className="flex h-10 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 shadow-inner transition-all hover:bg-black/40"
+                                className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/30 px-3 py-2 text-sm text-slate-900 dark:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 shadow-inner transition-all hover:bg-slate-50 dark:hover:bg-black/40"
                                 required
                             >
-                                <option value="" disabled className="bg-slate-900 text-white/50">Select</option>
-                                <option value="male" className="bg-slate-900">Male</option>
-                                <option value="female" className="bg-slate-900">Female</option>
-                                <option value="other" className="bg-slate-900">Other</option>
+                                <option value="" disabled className="dark:bg-slate-900 text-slate-400 dark:text-white/50">Select</option>
+                                <option value="male" className="dark:bg-slate-900">Male</option>
+                                <option value="female" className="dark:bg-slate-900">Female</option>
+                                <option value="other" className="dark:bg-slate-900">Other</option>
                             </select>
                         </div>
                     </div>
 
                     <Button
                         type="submit"
-                        className="w-full mt-4 h-12 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold tracking-wide neon-glow transition-all hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] border border-white/10"
+                        className="w-full mt-4 h-12 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold tracking-wide neon-glow transition-all hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] border border-slate-300 dark:border-white/10"
                     >
                         Calculate Impact
                     </Button>

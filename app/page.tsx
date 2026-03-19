@@ -6,13 +6,15 @@ import { CalorieCatcher } from '@/components/game/CalorieCatcher';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
+import { ThemeToggle } from '@/components/ThemeToggle';
+
 export default function Home() {
   return (
     <main className="min-h-screen relative p-4 md:p-6 lg:p-10 overflow-x-hidden selection:bg-emerald-500/30">
       {/* Background decorations */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/20 dark:bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-400/20 dark:bg-emerald-600/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 dark:opacity-20 pointer-events-none mix-blend-overlay"></div>
 
       <div className="max-w-7xl mx-auto space-y-8 relative z-10 w-full">
 
@@ -21,15 +23,18 @@ export default function Home() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col md:flex-row justify-between items-center gap-6 border-b border-white/5 pb-6"
+          className="flex flex-col md:flex-row justify-between items-center gap-6 border-b border-slate-200 dark:border-white/5 pb-6"
         >
           <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/60 tracking-tighter drop-shadow-sm">
-              Aura <span className="text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.4)]">Health</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-teal-500 to-indigo-600 dark:from-white dark:via-white/90 dark:to-white/60 tracking-tighter drop-shadow-sm">
+              Aura <span className="text-emerald-500 dark:text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.4)]">Health</span>
             </h1>
-            <p className="text-white/60 font-medium mt-2 uppercase tracking-[0.2em] text-xs">
+            <p className="text-slate-600 dark:text-white/60 font-medium mt-2 uppercase tracking-[0.2em] text-xs">
               AI-Powered Wellness Operating System
             </p>
+          </div>
+          <div className="flex gap-3">
+            <ThemeToggle />
           </div>
         </motion.header>
 

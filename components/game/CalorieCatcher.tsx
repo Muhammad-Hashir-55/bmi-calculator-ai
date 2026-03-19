@@ -118,40 +118,40 @@ export function CalorieCatcher() {
     }, [isPlaying, gameLoop]);
 
     return (
-        <Card className={`glass-panel border-white/10 shadow-2xl relative overflow-hidden transition-colors duration-150 ${flash === 'green' ? 'bg-emerald-900/40' : flash === 'red' ? 'bg-red-900/40' : ''}`}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 relative z-10">
-                <CardTitle className="text-xl font-bold text-glow flex items-center gap-2">
+        <Card className={`glass-panel border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/5 shadow-2xl relative overflow-hidden transition-colors duration-150 ${flash === 'green' ? 'bg-emerald-100 dark:bg-emerald-900/40' : flash === 'red' ? 'bg-red-100 dark:bg-red-900/40' : ''}`}>
+            <CardHeader className="flex flex-row items-center justify-between pb-2 relative z-10 border-b border-slate-200 dark:border-white/5">
+                <CardTitle className="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
                     <Activity className="text-primary" /> Calorie Catcher
                 </CardTitle>
                 <div className="flex items-center gap-4">
-                    <div className="text-sm font-semibold text-white/80 flex items-center gap-1">
-                        <Trophy size={14} className="text-yellow-400" /> {highScore}
+                    <div className="text-sm font-semibold text-slate-600 dark:text-white/80 flex items-center gap-1">
+                        <Trophy size={14} className="text-yellow-500 dark:text-yellow-400" /> {highScore}
                     </div>
-                    <div className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 font-mono">
+                    <div className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600 dark:from-blue-400 dark:to-emerald-400 font-mono">
                         {gameScore.toString().padStart(4, '0')}
                     </div>
                 </div>
             </CardHeader>
 
             <CardContent
-                className="p-0 h-[400px] relative touch-none cursor-none bg-black/40 border-t border-white/5"
+                className="p-0 h-[400px] relative touch-none cursor-none bg-slate-100/50 dark:bg-black/40"
                 onMouseMove={handleMouseMove}
                 onTouchMove={handleMouseMove}
                 ref={gameAreaRef}
             >
                 {!isPlaying ? (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm z-20">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm z-20">
                         <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className="text-center space-y-4"
+                            className="text-center space-y-4 p-6"
                         >
-                            <h3 className="text-3xl font-black text-white text-glow mb-2">Ready?</h3>
-                            <p className="text-white/70 max-w-[250px] text-sm mb-6">Catch healthy food 🍎 for points. Avoid junk food 🍔 or lose points!</p>
+                            <h3 className="text-3xl font-black text-slate-800 dark:text-white mb-2">Ready?</h3>
+                            <p className="text-slate-600 dark:text-white/70 max-w-[250px] text-sm mb-6">Catch healthy food 🍎 for points. Avoid junk food 🍔 or lose points!</p>
                             <Button
                                 onClick={startGame}
                                 size="lg"
-                                className="bg-emerald-600 hover:bg-emerald-500 neon-glow-emerald rounded-full px-8 h-14 font-bold text-lg"
+                                className="bg-emerald-600 hover:bg-emerald-500 dark:neon-glow-emerald rounded-full px-8 h-14 font-bold text-lg text-white"
                             >
                                 <Play className="mr-2" /> Start Game
                             </Button>
@@ -159,7 +159,7 @@ export function CalorieCatcher() {
                     </div>
                 ) : (
                     <div className="absolute top-4 right-4 z-20">
-                        <Button size="icon" variant="ghost" className="text-white/50 hover:text-white" onClick={endGame}>
+                        <Button size="icon" variant="ghost" className="text-slate-500 hover:text-slate-800 hover:bg-slate-200 dark:text-white/50 dark:hover:text-white dark:hover:bg-white/10" onClick={endGame}>
                             <RotateCcw size={20} />
                         </Button>
                     </div>
@@ -182,7 +182,7 @@ export function CalorieCatcher() {
                 {items.map(item => (
                     <div
                         key={item.id}
-                        className="absolute -ml-4 text-3xl filer drop-shadow-md pointer-events-none"
+                        className="absolute -ml-4 text-3xl filter drop-shadow-md pointer-events-none"
                         style={{ left: `${item.x}%`, top: `${item.y}%` }}
                     >
                         {item.icon}
