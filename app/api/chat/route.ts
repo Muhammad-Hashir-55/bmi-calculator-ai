@@ -1,11 +1,17 @@
 import { Groq } from 'groq-sdk';
 import { NextRequest } from 'next/server';
+import type { BmiData, ChatMessage } from '@/lib/store';
 
 export const runtime = 'edge';
 
+type ChatRequestBody = {
+    messages: ChatMessage[];
+    bmiData?: BmiData;
+};
+
 export async function POST(req: NextRequest) {
     try {
-        const { messages, bmiData } = await req.json();
+        const { messages, bmiData } = await req.json() as ChatRequestBody;
 
         const key = process.env.GROQ_API_KEY;
 
@@ -28,7 +34,9 @@ Provide practical diet and workout suggestions based on this context. Keep respo
         const chatCompletion = await groq.chat.completions.create({
             messages: [
                 { role: 'system', content: systemPrompt },
-                ...messages.filter((m: any) => m.role !== 'system').map((m: any) => ({ role: m.role, content: m.content }))
+                ...messages
+                    .filter((message) => message.role !== 'system')
+                    .map((message) => ({ role: message.role, content: message.content }))
             ],
             model: "meta-llama/llama-4-scout-17b-16e-instruct",
             temperature: 1,

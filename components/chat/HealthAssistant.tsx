@@ -2,7 +2,13 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useAppStore } from '@/lib/store';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,6 +19,7 @@ export function HealthAssistant() {
     const { messages, addMessage, setMessages, isTyping, setIsTyping, bmiData } = useAppStore();
     const [input, setInput] = useState('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const showStarterTips = messages.length <= 1;
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -92,20 +99,26 @@ export function HealthAssistant() {
     };
 
     return (
-        <Card className="glass-panel bg-white/50 dark:bg-white/5 border-slate-200 dark:border-white/10 shadow-2xl h-[600px] flex flex-col overflow-hidden relative group">
+        <Card className="glass-panel group relative flex min-h-[32rem] flex-col overflow-hidden rounded-[2rem] border-slate-200/70 bg-white/70 shadow-[0_24px_90px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/5 md:min-h-[38rem]">
             <div className="absolute inset-0 bg-gradient-to-t from-blue-200/20 dark:from-blue-900/10 via-transparent to-transparent pointer-events-none" />
 
-            <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-slate-200 dark:border-white/10 bg-slate-100/50 dark:bg-black/20 z-10">
+            <CardHeader className="z-10 border-b border-slate-200/80 bg-slate-50/80 pb-4 dark:border-white/10 dark:bg-black/20">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center shadow-md dark:shadow-[0_0_15px_rgba(16,185,129,0.5)]">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-emerald-500 shadow-md dark:shadow-[0_0_15px_rgba(16,185,129,0.5)]">
                         <Bot size={24} className="text-white" />
                     </div>
                     <div>
-                        <CardTitle className="text-xl font-bold tracking-tight text-slate-800 dark:text-white">Health AI</CardTitle>
-                        <p className="text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
+                        <CardTitle className="text-xl font-black tracking-[-0.04em] text-slate-900 dark:text-white">
+                            Health AI
+                        </CardTitle>
+                        <CardDescription className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                            Ask for food ideas, routines, BMI context, or weight
+                            goals.
+                        </CardDescription>
+                        <p className="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
                             <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 dark:bg-emerald-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600 dark:bg-emerald-500"></span>
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75 dark:bg-emerald-400"></span>
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-500"></span>
                             </span>
                             Online Status
                         </p>
@@ -113,40 +126,58 @@ export function HealthAssistant() {
                 </div>
             </CardHeader>
 
-            <CardContent className="flex-1 overflow-y-auto p-4 space-y-4 z-10 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-white/10 scrollbar-track-transparent">
+            <CardContent className="scroll-shell z-10 flex-1 space-y-4 overflow-y-auto p-4 sm:p-5">
+                {showStarterTips && (
+                    <div className="grid gap-2 sm:grid-cols-3">
+                        {[
+                            'Review my BMI result',
+                            'Build a 7-day meal outline',
+                            'Suggest a home workout routine',
+                        ].map((tip) => (
+                            <button
+                                key={tip}
+                                type="button"
+                                onClick={() => setInput(tip)}
+                                className="rounded-2xl border border-slate-200/80 bg-slate-50/90 px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:border-emerald-400/30 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200"
+                            >
+                                {tip}
+                            </button>
+                        ))}
+                    </div>
+                )}
                 <AnimatePresence initial={false}>
                     {messages.map((m) => (
                         <motion.div
                             key={m.id}
                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                            className={`flex items-end gap-3 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}
+                            className={`flex items-end gap-2.5 sm:gap-3 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}
                         >
-                            <div className={`w-8 h-8 rounded-full flex shrink-0 items-center justify-center shadow-lg ${m.role === 'user' ? 'bg-primary/20 border border-primary/50' :
-                                    m.role === 'system' ? 'bg-red-100 dark:bg-red-500/20 border border-red-300 dark:border-red-500/50' :
-                                        'bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-500/50'
+                            <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full shadow-lg ${m.role === 'user' ? 'border border-primary/50 bg-primary/20' :
+                                    m.role === 'system' ? 'border border-red-300 bg-red-100 dark:border-red-500/50 dark:bg-red-500/20' :
+                                        'border border-emerald-300 bg-emerald-100 dark:border-emerald-500/50 dark:bg-emerald-500/20'
                                 }`}>
                                 {m.role === 'user' ? <User size={16} className="text-primary" /> :
                                     m.role === 'system' ? <Bot size={16} className="text-red-500 dark:text-red-400" /> :
                                         <Bot size={16} className="text-emerald-600 dark:text-emerald-400" />}
                             </div>
-                            <div className={`max-w-[85%] break-words rounded-2xl p-4 text-sm leading-relaxed shadow-lg backdrop-blur-md border ${m.role === 'user'
-                                    ? 'bg-primary/90 text-white border-primary-foreground/20 rounded-br-sm'
+                            <div className={`max-w-[88%] break-words rounded-[1.4rem] border p-3.5 text-sm leading-relaxed shadow-lg backdrop-blur-md sm:max-w-[82%] sm:p-4 ${m.role === 'user'
+                                    ? 'rounded-br-sm border-primary-foreground/20 bg-primary/90 text-white'
                                     : m.role === 'system'
-                                        ? 'bg-red-50 dark:bg-red-950/80 text-red-800 dark:text-red-200 border-red-200 dark:border-red-500/30 rounded-bl-sm'
-                                        : 'bg-white dark:bg-black/40 text-slate-800 dark:text-white/90 border-slate-200 dark:border-white/10 rounded-bl-sm'
+                                        ? 'rounded-bl-sm border-red-200 bg-red-50 text-red-800 dark:border-red-500/30 dark:bg-red-950/80 dark:text-red-200'
+                                        : 'rounded-bl-sm border-slate-200 bg-white text-slate-800 dark:border-white/10 dark:bg-black/40 dark:text-white/90'
                                 }`}>
                                 {m.role === 'user' ? (
                                     <span className="whitespace-pre-wrap">{m.content}</span>
                                 ) : (
                                     <ReactMarkdown
                                         components={{
-                                            h3: ({ node, ...props }) => <h3 className="font-bold text-emerald-600 dark:text-emerald-400 text-base mt-3 mb-1 uppercase tracking-wider" {...props} />,
-                                            ul: ({ node, ...props }) => <ul className="list-disc ml-5 my-2 space-y-1 text-slate-700 dark:text-white/80" {...props} />,
-                                            ol: ({ node, ...props }) => <ol className="list-decimal ml-5 my-2 space-y-1 text-slate-700 dark:text-white/80" {...props} />,
-                                            p: ({ node, ...props }) => <p className="mb-3 last:mb-0" {...props} />,
-                                            strong: ({ node, ...props }) => <strong className="font-bold text-slate-900 dark:text-white" {...props} />,
-                                            a: ({ node, ...props }) => <a className="text-blue-600 dark:text-blue-400 hover:underline" {...props} />
+                                            h3: (props) => <h3 className="font-bold text-emerald-600 dark:text-emerald-400 text-base mt-3 mb-1 uppercase tracking-wider" {...props} />,
+                                            ul: (props) => <ul className="list-disc ml-5 my-2 space-y-1 text-slate-700 dark:text-white/80" {...props} />,
+                                            ol: (props) => <ol className="list-decimal ml-5 my-2 space-y-1 text-slate-700 dark:text-white/80" {...props} />,
+                                            p: (props) => <p className="mb-3 last:mb-0" {...props} />,
+                                            strong: (props) => <strong className="font-bold text-slate-900 dark:text-white" {...props} />,
+                                            a: (props) => <a className="text-blue-600 dark:text-blue-400 hover:underline" {...props} />
                                         }}
                                     >
                                         {m.content}
@@ -161,10 +192,10 @@ export function HealthAssistant() {
                             animate={{ opacity: 1, y: 0 }}
                             className="flex items-end gap-3"
                         >
-                            <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-500/50 flex items-center justify-center animate-pulse">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-emerald-300 bg-emerald-100 animate-pulse dark:border-emerald-500/50 dark:bg-emerald-500/20">
                                 <Bot size={16} className="text-emerald-600 dark:text-emerald-400" />
                             </div>
-                            <div className="bg-white dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl rounded-bl-sm p-4 flex gap-1 items-center shadow-lg">
+                            <div className="flex items-center gap-1 rounded-2xl rounded-bl-sm border border-slate-200 bg-white p-4 shadow-lg dark:border-white/10 dark:bg-black/40">
                                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce"></span>
@@ -175,19 +206,19 @@ export function HealthAssistant() {
                 <div ref={messagesEndRef} />
             </CardContent>
 
-            <div className="p-4 bg-slate-100/50 dark:bg-black/20 border-t border-slate-200 dark:border-white/10 z-10 backdrop-blur-xl">
-                <form onSubmit={handleSubmit} className="flex gap-2">
+            <div className="z-10 border-t border-slate-200/80 bg-slate-50/80 p-4 backdrop-blur-xl dark:border-white/10 dark:bg-black/20">
+                <form onSubmit={handleSubmit} className="flex items-end gap-2">
                     <Input
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="Ask about your health..."
                         disabled={isTyping}
-                        className="flex-1 bg-white dark:bg-black/40 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/40 focus-visible:ring-emerald-500/50 rounded-xl h-12 shadow-inner transition-all hover:bg-slate-50 dark:hover:bg-black/60 focus:bg-white dark:focus:bg-black/60"
+                        className="h-12 flex-1 rounded-2xl border-slate-200/90 bg-white text-slate-900 shadow-inner transition-all hover:bg-slate-50 focus:bg-white focus-visible:ring-emerald-500/50 dark:border-white/10 dark:bg-black/40 dark:text-white dark:placeholder:text-white/40 dark:hover:bg-black/60 dark:focus:bg-black/60"
                     />
                     <Button
                         type="submit"
                         disabled={isTyping || !input.trim()}
-                        className="h-12 w-12 p-0 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow-md dark:shadow-[0_0_15px_rgba(16,185,129,0.3)] dark:hover:shadow-[0_0_20px_rgba(16,185,129,0.6)] transition-all border border-emerald-500 dark:border-emerald-400/30"
+                        className="h-12 w-12 rounded-2xl border border-emerald-500 bg-emerald-600 p-0 text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-emerald-500 dark:border-emerald-400/30 dark:shadow-[0_0_15px_rgba(16,185,129,0.3)] dark:hover:shadow-[0_0_20px_rgba(16,185,129,0.6)]"
                     >
                         {isTyping ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
                     </Button>
