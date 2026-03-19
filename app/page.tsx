@@ -10,9 +10,7 @@ import {
   Activity,
   Bot,
   Gamepad2,
-  ShieldCheck,
   Sparkles,
-  Zap,
 } from 'lucide-react';
 
 const navLinks = [
@@ -86,78 +84,35 @@ export default function Home() {
           </div>
         </motion.header>
 
-        <section className="grid gap-4 lg:grid-cols-[minmax(0,1.35fr)_minmax(19rem,0.9fr)]">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="rounded-[2rem] border border-slate-200/70 bg-white/75 p-5 shadow-[0_24px_90px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/55 sm:p-7"
-          >
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
-                <ShieldCheck size={14} className="text-emerald-500" />
-                Touch-first layout
-              </div>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {heroStats.map((stat) => {
-                  const Icon = stat.icon;
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="rounded-[2rem] border border-slate-200/70 bg-white/75 p-5 shadow-[0_24px_90px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/55 sm:p-7"
+        >
+          <div className="grid gap-3 sm:grid-cols-3">
+            {heroStats.map((stat) => {
+              const Icon = stat.icon;
 
-                  return (
-                    <div
-                      key={stat.label}
-                      className="rounded-[1.5rem] border border-slate-200/70 bg-slate-50/80 p-4 dark:border-white/10 dark:bg-white/5"
-                    >
-                      <div className="mb-3 flex size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/20">
-                        <Icon size={18} />
-                      </div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                        {stat.label}
-                      </p>
-                      <p className="mt-2 text-base font-semibold text-slate-900 dark:text-white">
-                        {stat.value}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.aside
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="rounded-[2rem] border border-slate-200/70 bg-slate-950 px-5 py-5 text-white shadow-[0_28px_90px_rgba(2,6,23,0.28)] dark:border-white/10 sm:px-6"
-          >
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-300">
-              <Zap size={14} />
-              What changed
-            </div>
-            <div className="mt-4 space-y-4">
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
-                <p className="text-sm font-semibold text-white">Scrolling</p>
-                <p className="mt-1 text-sm leading-6 text-slate-300">
-                  Anchor jumps and long chat history now feel smoother instead of
-                  jerky.
-                </p>
-              </div>
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
-                <p className="text-sm font-semibold text-white">Game</p>
-                <p className="mt-1 text-sm leading-6 text-slate-300">
-                  The old catcher is replaced by a lane-based reflex game with
-                  levels, lives, and real controls.
-                </p>
-              </div>
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
-                <p className="text-sm font-semibold text-white">Mobile UI</p>
-                <p className="mt-1 text-sm leading-6 text-slate-300">
-                  Cards stack better, spacing is tighter, and touch targets are
-                  large enough to use comfortably.
-                </p>
-              </div>
-            </div>
-          </motion.aside>
-        </section>
+              return (
+                <div
+                  key={stat.label}
+                  className="rounded-[1.5rem] border border-slate-200/70 bg-slate-50/80 p-4 dark:border-white/10 dark:bg-white/5"
+                >
+                  <div className="mb-3 flex size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/20">
+                    <Icon size={18} />
+                  </div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                    {stat.label}
+                  </p>
+                  <p className="mt-2 text-base font-semibold text-slate-900 dark:text-white">
+                    {stat.value}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </motion.section>
 
         <div className="grid items-start gap-6 lg:grid-cols-12">
           <motion.div
